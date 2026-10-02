@@ -1,0 +1,46 @@
+Biên dịch thành công.
+[PASS] 01 Chuẩn hóa mã, tên và tìm kiếm tiếng Việt
+[PASS] 02 Chặn mã rỗng, mã sai và tên rỗng
+[PASS] 03 Biên giá gốc, giảm giá, tồn kho
+[PASS] 04 Giá khuyến mãi và làm tròn đến đồng
+[PASS] 05 Đa hình SanPham, interface KhuyenMai và Nguoi
+[PASS] 06 Cả hai loại được bán trong ngày HSD, cấm bán ngày sau
+[PASS] 07 Mã sản phẩm trùng sau chuẩn hóa
+[PASS] 08 Tìm theo mã/tên không phân biệt hoa thường và dấu
+[PASS] 09 Lọc loại, hết hàng và hết hạn độc lập
+[PASS] 10 Sửa sản phẩm giữ mã, loại và tồn kho
+[PASS] 11 Xóa sản phẩm chưa có hóa đơn và chặn mã không tồn tại
+[PASS] 12 Regex điện thoại đúng 10 chữ số và bắt đầu 0
+[PASS] 13 Thêm trùng nhân sự và sửa sai SĐT không đổi dở tên
+[PASS] 14 Nhập kho hợp lệ; chặn âm, 0 và vượt giới hạn
+[PASS] 15 Giỏ trống, số lượng âm, 0, null và mã không có
+[PASS] 16 Thiếu kho ở dòng sau không trừ kho dòng trước
+[PASS] 17 Mặt hàng hết hạn khiến toàn bộ giao dịch bị từ chối
+[PASS] 18 Khách/nhân viên không tồn tại không phát sinh hóa đơn
+[PASS] 19 Thiếu tiền không trừ kho hoặc tiêu thụ mã hóa đơn
+[PASS] 20 Thanh toán nhiều món, giá giảm, tiền thừa và tồn kho
+[PASS] 21 Chặn hai khóa giỏ trùng mã sau chuẩn hóa
+[PASS] 22 Khuyến mãi 100% vẫn tạo hóa đơn và trừ kho
+[PASS] 23 Snapshot không đổi khi sửa tên/giá/khuyến mãi sản phẩm
+[PASS] 24 Snapshot tên khách và nhân viên được giữ nguyên
+[PASS] 25 Sửa giỏ sau thanh toán không thay đổi hóa đơn
+[PASS] 26 Hủy hoàn đúng kho, trả đúng tiền và loại doanh thu
+[PASS] 27 Hủy hai lần hoặc mã không có không hoàn kho thêm
+[PASS] 28 Hoàn kho vượt trần ở dòng sau không sửa dòng trước
+[PASS] 29 Chặn xóa sản phẩm/người đã được hóa đơn tham chiếu
+[PASS] 30 Xóa người chưa có hóa đơn
+[PASS] 31 Doanh thu bao gồm biên ngày và loại hóa đơn hủy
+[PASS] 32 Thống kê số lượng bán ròng
+[PASS] 33 Không dùng lại mã hóa đơn đã hủy
+[PASS] 34 Danh sách chỉ đọc và chi tiết không bị thêm/xóa từ ngoài
+[PASS] 35 Tiền vượt int vẫn đúng nhờ long
+[PASS] 36 Nhập sai số, số vượt long và EOF không lặp vô hạn
+[PASS] 37 Ngày thực, năm nhuận, SĐT và xác nhận
+[PASS] 38 Lưu/đọc UTF-8, snapshot, trạng thái hủy và mã tiếp theo
+[PASS] 39 Lưu/đọc cửa hàng trống
+[PASS] 40 Từ chối file thiếu trường, sai loại/số/ngày/trạng thái/tham chiếu
+[PASS] 41 Ghi thất bại không làm mất file chính
+[PASS] 42 Đọc file không tồn tại trả lỗi IOException
+[PASS] 43 HoaDon sao chép danh sách và chặn chi tiết trùng
+
+KẾT QUẢ: 43/43 ca đạt; 177 phép kiểm tra; 0 ca lỗi.

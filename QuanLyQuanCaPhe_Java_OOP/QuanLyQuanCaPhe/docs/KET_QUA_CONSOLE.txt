@@ -1,0 +1,28 @@
+KIỂM THỬ CONSOLE THỰC TẾ
+Môi trường: OpenJDK 17.0.20, Linux, UTF-8.
+Mọi kịch bản dùng thư mục tạm độc lập.
+
+[PASS] Bán 2 DU01 và 1 TP01, xem hóa đơn/doanh thu
+  4 điểm kiểm tra đầu ra đạt; không có ngoại lệ chưa xử lý.
+
+[PASS] Khởi động lại, đọc hóa đơn, hủy và chặn hủy lần hai
+  4 điểm kiểm tra đầu ra đạt; không có ngoại lệ chưa xử lý.
+
+[PASS] Nhập menu sai, hàng hết hạn/hết kho/quá tồn, thiếu tiền và bỏ giỏ
+  7 điểm kiểm tra đầu ra đạt; không có ngoại lệ chưa xử lý.
+
+[PASS] CRUD sản phẩm, khách/nhân viên, nhập kho và tìm/lọc
+  6 điểm kiểm tra đầu ra đạt; không có ngoại lệ chưa xử lý.
+
+[PASS] Dữ liệu CRUD đã lưu không còn các mã đã xóa.
+
+[PASS] File lỗi lúc khởi động không bị ghi đè
+  2 điểm kiểm tra đầu ra đạt; không có ngoại lệ chưa xử lý.
+
+[PASS] Hết luồng nhập kết thúc an toàn
+  1 điểm kiểm tra đầu ra đạt; không có ngoại lệ chưa xử lý.
+
+[PASS] Lưu thủ công và đọc lại từ menu
+  1 điểm kiểm tra đầu ra đạt; không có ngoại lệ chưa xử lý.
+
+[PASS] Bản JAR chạy độc lập, bán 1 DU01 và tính đúng tổng/tiền thừa.

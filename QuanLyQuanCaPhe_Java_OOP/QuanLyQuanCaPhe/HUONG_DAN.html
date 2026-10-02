@@ -1,0 +1,425 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hướng dẫn đồ án Java quản lý quán cà phê</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:#20242b;background:#f2f4f7;font:16px/1.7 Arial,"Segoe UI",sans-serif}main{max-width:1120px;margin:32px auto;padding:48px 56px;background:white}h1,h2,h3,h4{color:#111;line-height:1.3}h1{font-size:32px;margin-top:0}h2{font-size:27px;margin-top:0}h3{font-size:21px;margin-top:32px}p{margin:14px 0}nav{margin:24px 0 48px}a{color:#164d85;text-decoration:none}a:hover{text-decoration:underline}section{padding-top:30px;margin-top:34px;border-top:1px solid #d9dde2}ul,ol{padding-left:26px}li{margin:7px 0}.table-wrap{overflow-x:auto;margin:20px 0}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.55}th,td{border:1px solid #d9d9d9;padding:10px 12px;text-align:left;vertical-align:top}th{background:#203951;color:white}tbody tr:nth-child(even){background:#f4f7fa}code{font-family:Consolas,"Courier New",monospace;font-size:.91em;overflow-wrap:anywhere}p code,li code,td code{background:#eef1f4;padding:2px 4px}pre{padding:18px;background:#f2f4f6;border:1px solid #dadfe5;overflow:auto;line-height:1.6;white-space:pre-wrap}pre code{overflow-wrap:normal}.intro{font-size:18px;color:#4b5563}footer{margin-top:48px;font-size:14px;color:#555}@media(max-width:760px){main{margin:0;padding:24px 18px}h1{font-size:27px}table{min-width:580px}th,td{padding:8px}}@media print{body{background:white;font-size:10pt}main{margin:0;padding:0;max-width:none}nav{break-after:page}section{break-before:page;border:none;margin:0;padding:0}h2,h3,h4{break-after:avoid}pre,tr{break-inside:avoid}thead{display:table-header-group}.table-wrap{overflow:visible}table{font-size:8.5pt}a{color:inherit}footer{font-size:9pt}}</style></head><body><main><h1>Hướng dẫn đồ án Java quản lý quán cà phê</h1><p class="intro">Mã nguồn console, thiết kế hướng đối tượng, phân công 5 thành viên và kịch bản bảo vệ.</p><p>Bản hướng dẫn này đọc được khi không có Internet. Mã nguồn ở thư mục <code>src</code>; chạy trên Windows bằng <code>run.bat</code>.</p><nav aria-label="Mục lục"><strong>Mục lục</strong><ol><li><a href="#chuong-0">Đồ án Java OOP quản lý quán cà phê</a></li><li><a href="#chuong-1">Đối chiếu yêu cầu và quy tắc nghiệp vụ</a></li><li><a href="#chuong-2">Phân công và mô tả công việc</a></li><li><a href="#chuong-3">Thiết kế lớp và giải thích hướng đối tượng</a></li><li><a href="#chuong-4">Kịch bản demo và gợi ý bảo vệ</a></li><li><a href="#chuong-5">Lưu trữ dữ liệu và kết quả kiểm thử</a></li></ol></nav><section id="chuong-0"><h2>Đồ án Java OOP quản lý quán cà phê</h2>
+<p>Chương trình chạy trên <strong>console</strong>, xây dựng theo tài liệu <strong>MÔ TẢ ĐỒ ÁN VÀ PHÂN CÔNG (dự kiến).docx</strong> bạn cung cấp. Mục tiêu là quản lý thực đơn, kho, khách hàng, nhân viên, bán hàng, lịch sử hóa đơn, hủy hóa đơn và doanh thu bằng kiến thức hướng đối tượng Java.</p>
+<p>Mã nguồn có chú thích tiếng Việt, không dùng thư viện ngoài, không cần mạng hoặc cơ sở dữ liệu để chạy. Dữ liệu được lưu trong file text UTF-8. Mỗi tệp Java ghi rõ người phụ trách theo phân công gốc.</p>
+<p><strong>Chênh lệch trong đề:</strong> tài liệu ghi “17 class” nhưng danh sách và phân công thực tế có **15 lớp + 1 interface <code>KhuyenMai</code> = 16 tệp Java**. Bản này giữ đúng danh sách đó. Nếu giảng viên bắt buộc đủ 17 kiểu dữ liệu, nhóm cần thống nhất bổ sung một lớp; đây chưa phải yêu cầu đã rõ trong tài liệu.</p>
+<h3>Chạy nhanh trên Windows</h3>
+<ol>
+<li>Giải nén toàn bộ ZIP vào một thư mục, ví dụ <code>D:\DoAn\QuanLyQuanCaPhe</code>.</li>
+<li>Kiểm tra trong Terminal: <code>java -version</code> và <code>javac -version</code>. Cần <strong>JDK 17 trở lên</strong> để sửa và biên dịch.</li>
+<li>Mở <code>run.bat</code>. Script tự biên dịch tất cả tệp trong <code>src</code>, sau đó mở menu.</li>
+<li>Mở <code>test.bat</code> để chạy kiểm thử; kết quả bàn giao là <strong>43/43 ca đạt, 177 phép kiểm tra</strong>.</li>
+</ol>
+<p>Muốn chạy ngay bản đã biên dịch: mở <code>run-jar.bat</code> hoặc chạy <code>java -Dfile.encoding=UTF-8 -jar dist/QuanLyQuanCaPhe.jar</code>. Cách này cần Java 17 trở lên nhưng không cần trình biên dịch. **Sau khi sửa nguồn, dùng <code>run.bat</code>**; JAR đi kèm là bản tại thời điểm bàn giao và không tự cập nhật.</p>
+<p>Nếu Windows báo không nhận diện <code>java</code> hoặc <code>javac</code>, kiểm tra đã cài <strong>JDK</strong>, thêm thư mục <code>bin</code> của JDK vào PATH rồi mở lại Terminal. Nếu chữ có dấu hiển thị sai, dùng Windows Terminal, chạy <code>chcp 65001</code> và giữ mã nguồn ở UTF-8. Các script <code>.bat</code> đã đổi code page sang UTF-8.</p>
+<h3>Chạy bằng Terminal</h3>
+<p>Mở Terminal ở thư mục chứa README này. Lệnh biên dịch và chạy:</p>
+<pre><code>javac -encoding UTF-8 --release 17 -Xlint:all -d out src/*.java
+java -Dfile.encoding=UTF-8 -cp out Main
+java -Dfile.encoding=UTF-8 -cp out KiemThu</code></pre>
+<p>Trên Windows có thể dùng <code>src\*.java</code>; các script đã viết sẵn. Trên macOS/Linux: <code>sh run.sh</code> và <code>sh test.sh</code>.</p>
+<p>Để thử một bộ dữ liệu riêng:</p>
+<pre><code>java -Dfile.encoding=UTF-8 -cp out Main --data data/demo_rieng.txt</code></pre>
+<p>Nếu file chỉ định chưa tồn tại, chương trình tạo dữ liệu mẫu. Nếu file đã có nhưng bị lỗi, chương trình báo lỗi và dừng, không tự ghi đè bằng dữ liệu mẫu.</p>
+<h3>Chạy trong VS Code hoặc NetBeans</h3>
+<p><strong>VS Code:</strong> mở cả thư mục <code>QuanLyQuanCaPhe</code>, mở Terminal và chạy lệnh ở trên. Đây là cách không phụ thuộc extension. Nếu đã có hỗ trợ Java, có thể chạy phương thức <code>main</code> của <code>Main.java</code> hoặc <code>KiemThu.java</code>; đặt working directory là thư mục gốc dự án.</p>
+<p><strong>NetBeans:</strong> tạo Java Application dùng JDK 17 trở lên; chép nội dung <code>src</code> vào Source Packages ở default package. Đặt Main Class là <code>Main</code>, encoding UTF-8 và working directory là thư mục dự án. Không thêm dòng <code>package</code> vào riêng một tệp. Chạy <code>KiemThu.java</code> để kiểm tra logic. Đường dẫn file dữ liệu được in khi khởi động để tránh nhầm vị trí.</p>
+<h3>Menu và chức năng</h3>
+<div class="table-wrap"><table><thead><tr><th>Menu</th><th>Chức năng</th></tr></thead><tbody>
+<tr><td>1</td><td>Xem/thêm/sửa/xóa sản phẩm; tìm mã/tên; lọc đồ uống, thực phẩm, còn bán, hết hàng, hết hạn</td></tr>
+<tr><td>2</td><td>Nhập thêm tồn kho theo mã sản phẩm</td></tr>
+<tr><td>3</td><td>Xem/thêm/sửa/xóa/tìm khách hàng</td></tr>
+<tr><td>4</td><td>Xem/thêm/sửa/xóa/tìm nhân viên</td></tr>
+<tr><td>5</td><td>Giỏ hàng: thêm món, đổi số lượng, xóa món, xem tạm tính, thanh toán hoặc bỏ giỏ</td></tr>
+<tr><td>6</td><td>Danh sách, chi tiết và hủy toàn bộ hóa đơn</td></tr>
+<tr><td>7</td><td>Doanh thu toàn bộ/theo khoảng ngày; đếm hóa đơn; số lượng bán ròng toàn bộ</td></tr>
+<tr><td>8</td><td>Lưu dữ liệu thủ công</td></tr>
+<tr><td>9</td><td>Đọc lại dữ liệu từ file, có xác nhận trước khi bỏ thay đổi chưa lưu</td></tr>
+<tr><td>0</td><td>Thoát, thử lưu nếu còn thay đổi</td></tr>
+</tbody></table></div>
+<p>Mỗi tác vụ quản lý hoàn tất sẽ trở về menu chính; riêng giỏ hàng có vòng lặp riêng. Ngày nhập theo <code>dd/MM/yyyy</code>, tiền nhập bằng số nguyên đồng, ví dụ <code>25000</code>, không nhập <code>25.000</code>.</p>
+<h3>Dữ liệu mẫu và giao dịch đầu tiên</h3>
+<p>Lần đầu chạy có 5 sản phẩm, 2 nhân viên, 2 khách hàng, chưa có hóa đơn. Ngày hết hạn được tính từ ngày chạy đầu tiên; các lần mở sau giữ nguyên hạn đã lưu.</p>
+<div class="table-wrap"><table><thead><tr><th>Mã</th><th>Nội dung</th><th>Giá gốc</th><th>Giảm</th><th>Giá bán</th><th>Tồn đầu</th></tr></thead><tbody>
+<tr><td>DU01</td><td>Cà phê sữa</td><td>25.000</td><td>0%</td><td>25.000</td><td>40</td></tr>
+<tr><td>DU02</td><td>Trà đào</td><td>30.000</td><td>10%</td><td>27.000</td><td>30</td></tr>
+<tr><td>TP01</td><td>Bánh mì</td><td>20.000</td><td>0%</td><td>20.000</td><td>20</td></tr>
+<tr><td>TP02</td><td>Bánh ngọt hết hạn</td><td>15.000</td><td>0%</td><td>15.000</td><td>5</td></tr>
+<tr><td>DU03</td><td>Nước suối hết hàng</td><td>10.000</td><td>0%</td><td>10.000</td><td>0</td></tr>
+</tbody></table></div>
+<p>Nhân viên: <code>NV01</code>, <code>NV02</code>. Khách hàng: <code>KH01</code>, <code>KH02</code>. Tên và điện thoại mẫu là dữ liệu minh họa.</p>
+<p>Ví dụ: menu <strong>5</strong>, thêm <code>DU01</code> số lượng <code>2</code>, thêm <code>TP01</code> số lượng <code>1</code>, chọn thanh toán, nhân viên <code>NV01</code>, khách <code>KH01</code>, tiền khách đưa <code>100000</code>, xác nhận <code>y</code>. Kết quả: <strong>70.000đ tiền hàng, 30.000đ tiền thừa</strong>, kho DU01 còn 38 và TP01 còn 19. Menu 6 hủy hóa đơn sẽ hoàn kho về 40 và 20, doanh thu của giao dịch này về 0.</p>
+<h3>Tài liệu để học và bảo vệ</h3>
+<div class="table-wrap"><table><thead><tr><th>Tệp</th><th>Nội dung</th></tr></thead><tbody>
+<tr><td><code>HUONG_DAN.html</code></td><td>Bản hướng dẫn gộp, mở bằng trình duyệt để đọc/in</td></tr>
+<tr><td><code>docs/01_YEU_CAU_VA_QUY_TAC.md</code></td><td>Đối chiếu đề bài, quy tắc nghiệp vụ và phạm vi</td></tr>
+<tr><td><code>docs/02_PHAN_CONG.md</code></td><td>Chi tiết việc của Thanh Dương, Tấn Viên, Thủy Tiên, Đức Phúc, Đình Triệu</td></tr>
+<tr><td><code>docs/03_THIET_KE_OOP.md</code></td><td>16 tệp, thuộc tính, hàm, quan hệ, giải thích 4 tính chất OOP</td></tr>
+<tr><td><code>docs/04_DEMO_VA_BAO_VE.md</code></td><td>Kịch bản trình diễn và câu hỏi kèm gợi ý trả lời</td></tr>
+<tr><td><code>docs/05_LUU_TRU_VA_KIEM_THU.md</code></td><td>Định dạng file, khôi phục, danh mục kiểm thử và kết quả thực tế</td></tr>
+<tr><td><code>docs/KET_QUA_KIEM_THU.txt</code></td><td>Log chạy KiemThu khi bàn giao</td></tr>
+<tr><td><code>docs/KET_QUA_CONSOLE.txt</code></td><td>Tóm tắt các kịch bản chạy menu thực tế</td></tr>
+</tbody></table></div>
+<h3>Các quy tắc cần biết trước khi chạy</h3>
+<ul>
+<li>Hàng còn hạn trong chính ngày HSD; bị chặn từ ngày sau. Hết hàng và hết hạn được kiểm tra riêng.</li>
+<li>Giỏ chưa thanh toán không làm thay đổi kho. Thanh toán lỗi không tạo hóa đơn, không trừ một phần kho.</li>
+<li>Hóa đơn lưu tên, mã, số lượng, giá bán và tên người tại lúc giao dịch; sửa thông tin hiện tại không đổi lịch sử.</li>
+<li>Hủy toàn bộ một lần: hoàn kho, loại doanh thu; tiền cần hoàn khách bằng tổng tiền hàng.</li>
+<li>Không xóa sản phẩm/khách/nhân viên đã được bất kỳ hóa đơn nào tham chiếu, kể cả hóa đơn hủy.</li>
+<li>Một mã sản phẩm có một hạn sử dụng. Nhập hàng khác hạn phải tạo mã mới. Đây là mô hình đơn giản theo đề, chưa quản lý nhiều lô.</li>
+<li>Chương trình dùng một tiến trình console; chưa có đăng nhập, phân quyền, giao diện đồ họa hoặc đồng bộ nhiều máy.</li>
+</ul>
+<h3>Lưu dữ liệu</h3>
+<p>Tự lưu sau mỗi thay đổi thành công vào <code>data/cuahang.txt</code>. File <code>.bak</code> giữ phiên bản ngay trước lần ghi gần nhất. Không sửa file trực tiếp trong lúc chương trình đang chạy. Kiểm thử dùng thư mục tạm riêng và tự dọn, không sử dụng dữ liệu bán hàng thật của bạn.</p>
+<p>Nếu muốn làm lại dữ liệu mẫu, chạy với một đường dẫn <code>--data</code> mới. Nếu muốn khôi phục bản sao lưu, xem <code>docs/05_LUU_TRU_VA_KIEM_THU.md</code> để kiểm tra bản sao trước khi thay file chính.</p>
+<h3>Kết quả xác minh</h3>
+<p>Đã biên dịch bằng OpenJDK 17.0.20 với <code>--release 17 -Xlint:all</code>, không có cảnh báo; đã chạy kiểm thử nghiệp vụ, lưu/đọc và nhập liệu. Script Windows được cung cấp nhưng môi trường kiểm tra hiện tại là Linux; nhóm cần chạy <code>run.bat</code> và <code>test.bat</code> trên máy Windows sẽ dùng để thuyết trình.</p></section>
+<section id="chuong-1"><h2>Đối chiếu yêu cầu và quy tắc nghiệp vụ</h2>
+<h3>Căn cứ thực hiện</h3>
+<p>Nguồn là tài liệu Word người dùng cung cấp, tên đồ án <strong>Quản lý quán cà phê</strong>, triển khai Java hướng đối tượng trên console. Chương trình không chuyển sang đề tài quán net hoặc cửa hàng tiện lợi trong các trao đổi khác.</p>
+<p>Tài liệu ghi 17 class nhưng chỉ liệt kê 16 tên tệp khác nhau, trong đó <code>KhuyenMai</code> là interface. <code>KhuyenMai</code> xuất hiện ở cả mục 3 và mục 10, nhưng chỉ cần một tệp. Có 15 khai báo <code>class</code> và 1 khai báo <code>interface</code>; 2 lớp trừu tượng là <code>SanPham</code>, <code>Nguoi</code>.</p>
+<h3>Bảng đối chiếu</h3>
+<div class="table-wrap"><table><thead><tr><th>Nội dung trong tài liệu</th><th>Tệp thực hiện</th><th>Kết quả có thể kiểm tra</th></tr></thead><tbody>
+<tr><td>Hằng số, chuẩn hóa, kiểm tra và định dạng tiền</td><td>QuyTac.java</td><td>Chặn mã sai, chuẩn hóa hoa/thường, định dạng VND</td></tr>
+<tr><td>Nhập bàn phím an toàn, bắt sai kiểu</td><td>NhapLieu.java</td><td>Nhập chữ khi cần số sẽ yêu cầu nhập lại</td></tr>
+<tr><td>Interface giaBanThucTe</td><td>KhuyenMai.java</td><td>SanPham implements KhuyenMai, dùng long đồng</td></tr>
+<tr><td>Lớp sản phẩm trừu tượng, đóng gói 5 thuộc tính chung</td><td>SanPham.java</td><td>Thuộc tính private; lớp con gọi super</td></tr>
+<tr><td>Hai lớp con có HSD và duocBan theo ngày</td><td>ThucPham.java, DoUong.java</td><td>Hết hạn bị chặn; đúng ngày HSD còn bán</td></tr>
+<tr><td>Danh sách ArrayList, thêm/sửa/xóa/tìm/lọc</td><td>DanhSachSanPham.java</td><td>Menu 1; xóa đi qua CuaHang để kiểm tra lịch sử</td></tr>
+<tr><td>Người trừu tượng và regex điện thoại</td><td>Nguoi.java</td><td>Đúng 10 chữ số, bắt đầu 0</td></tr>
+<tr><td>Phân biệt khách và nhân viên</td><td>KhachHang.java, NhanVien.java</td><td>Kế thừa Nguoi, ghi đè getVaiTro</td></tr>
+<tr><td>Snapshot dòng hóa đơn</td><td>ChiTietHoaDon.java</td><td>Giá/tên cũ giữ nguyên khi sửa sản phẩm</td></tr>
+<tr><td>Mã, ngày, tên người, dòng hàng, trạng thái, tổng tiền</td><td>HoaDon.java</td><td>Menu 6; ĐÃ THANH TOÁN hoặc ĐÃ HỦY</td></tr>
+<tr><td>Kho, nhân sự, giỏ, bán, tiền thừa, hủy, doanh thu</td><td>CuaHang.java</td><td>Menu 2–7 và KiemThu</td></tr>
+<tr><td>Đọc/ghi toàn bộ cửa hàng thành text</td><td>LuuTru.java</td><td>UTF-8 Properties, đọc lại vẫn đúng hóa đơn/kho</td></tr>
+<tr><td>Điểm vào và menu console</td><td>Main.java</td><td>Main.main; các menu kiểm tra dữ liệu đầu vào</td></tr>
+<tr><td>Kiểm tra logic và chống ngoại lệ</td><td>KiemThu.java</td><td>43 ca, 177 phép kiểm tra</td></tr>
+</tbody></table></div>
+<h3>Quy tắc triển khai được làm rõ</h3>
+<p>Những quy tắc dưới đây cụ thể hóa các chỗ tài liệu chưa nói chi tiết; không coi chúng là nội dung được trích nguyên văn từ đề.</p>
+<p><strong>Mã định danh.</strong> Mã dài 1–20 ký tự, gồm A–Z, 0–9, dấu gạch dưới hoặc gạch ngang; ký tự đầu là chữ/số. Chuẩn hóa sang in hoa và bỏ khoảng trắng hai đầu. Mã duy nhất trong từng danh sách; không đổi mã khi sửa. Ví dụ <code> du01 </code> và <code>DU01</code> là cùng một mã.</p>
+<p><strong>Tên và điện thoại.</strong> Tên không rỗng, tối đa 120 ký tự sau chuẩn hóa, khoảng trắng liên tiếp được gộp. Số điện thoại đúng regex <code>0[0-9]{9}</code>; đây là kiểm tra định dạng theo đề, không xác minh số đó có tồn tại trên mạng viễn thông.</p>
+<p><strong>Tiền và khuyến mãi.</strong> Giá gốc từ 1 đến 10.000.000 đồng, giảm giá nguyên từ 0 đến 100%. Giá bán = giá gốc × (100 − phần trăm giảm) / 100, làm tròn nửa lên đến 1 đồng. Giá 101đ giảm 50% thành 51đ. Lưu tiền bằng <code>long</code>; không dùng <code>double</code> để tránh sai số số thực. Chiết khấu áp dụng vào từng đơn vị trước khi nhân số lượng. Không có VAT, phí phục vụ, tích điểm hoặc chiết khấu toàn hóa đơn trong phạm vi đề.</p>
+<p><strong>Kho.</strong> Tồn kho 0–1.000.000 đơn vị, nhập thêm phải dương và không vượt trần. Không cho sửa trực tiếp tồn khi sửa sản phẩm. Cập nhật kho đi qua nhập hàng, bán hàng và hủy. Đề không có giá vốn và nhật ký phiếu nhập nên chương trình chỉ lưu tồn hiện tại; doanh thu không phải lợi nhuận.</p>
+<p><strong>Hạn sử dụng.</strong> Được bán trong ngày HSD, bị coi hết hạn từ ngày kế tiếp. Ngày dùng là ngày trên máy chạy chương trình. <code>duocBan(ngay)</code> xét hạn; kiểm tra số lượng tồn thực hiện riêng. Cho phép lưu hàng đã hết hạn để xem/tìm/lọc nhưng không cho bán. Mỗi mã chỉ chứa một HSD; lô mới khác hạn phải dùng mã mới. Sửa HSD chỉ nhằm hiệu chỉnh dữ liệu nhập sai, không được coi là cách làm mới thực phẩm hết hạn.</p>
+<p><strong>Giỏ hàng.</strong> <code>Main</code> dùng <code>LinkedHashMap&lt;String,Integer&gt;</code> để gộp số lượng theo mã, giữ thứ tự thêm món. Không phát sinh hóa đơn nháp, không giữ chỗ và không trừ kho khi thêm giỏ. Khi thanh toán, <code>CuaHang</code> kiểm tra lại toàn bộ giỏ theo cùng một thời điểm.</p>
+<p><strong>Thanh toán.</strong> Bắt buộc nhân viên đang tồn tại. Mã khách có thể để trống để dùng tên “Khách vãng lai”; nếu nhập mã thì phải tồn tại. Tổng tiền phải không lớn hơn số tiền khách đưa. Chỉ sau khi tất cả điều kiện đều đạt mới trừ kho và lưu hóa đơn. Tiền thừa = tiền khách đưa − tổng tiền hàng.</p>
+<p><strong>Snapshot.</strong> Chi tiết giữ bản chụp mã, tên, số lượng và đơn giá sau giảm. Hóa đơn giữ mã/tên khách, mã/tên nhân viên, ngày giờ, tiền khách đưa. Chi tiết bất biến; tổng hóa đơn tính từ snapshot. Không tham chiếu giá menu hiện tại để tính hóa đơn lịch sử.</p>
+<p><strong>Hủy.</strong> Chỉ hủy toàn bộ hóa đơn, tối đa một lần. Trước khi hoàn kho, kiểm tra tất cả sản phẩm có tồn tại và không vượt trần. Hóa đơn vẫn lưu trong lịch sử với tổng tiền gốc, đổi trạng thái ĐÃ HỦY và bị loại khỏi doanh thu. Số tiền cần hoàn khách là tiền hàng; tiền thừa đã trả lúc bán không được trả lại lần nữa. Đây là mô phỏng nghiệp vụ console, không kết nối cổng thanh toán.</p>
+<p><strong>Doanh thu.</strong> Là tổng giá trị hóa đơn chưa hủy. Lọc khoảng ngày bao gồm cả hai ngày biên và theo ngày lập hóa đơn. Nếu hủy vào ngày sau, hóa đơn bị loại khỏi doanh thu của kỳ lập ban đầu; chương trình không có sổ dòng tiền hoàn trả theo ngày hủy. Số lượng bán ròng cũng bỏ hóa đơn hủy.</p>
+<p><strong>Xóa dữ liệu.</strong> Không cho xóa sản phẩm, khách hoặc nhân viên đã xuất hiện trong lịch sử hóa đơn, kể cả hóa đơn hủy. Quy tắc này bảo toàn tham chiếu và khả năng hoàn kho. Đối tượng chưa có giao dịch vẫn xóa được. Đây là lựa chọn đơn giản thay cho cơ chế xóa mềm mà đề chưa yêu cầu.</p>
+<p><strong>Lưu và phục hồi.</strong> Lưu sản phẩm, người và hóa đơn vào một file text. Giỏ tạm chưa thanh toán không lưu. Sau mỗi thay đổi thành công tự lưu; có lỗi ghi thì giữ thay đổi trong bộ nhớ và báo chưa lưu. Khi đọc, tạo cửa hàng mới rồi mới thay trạng thái đang sử dụng. Không tự tạo dữ liệu mẫu đè lên file lỗi.</p>
+<h3>Phạm vi phù hợp đồ án môn học</h3>
+<p>Chạy một tiến trình trên một máy; không có đăng nhập, phân quyền, giao diện đồ họa, SQL, nhiều chi nhánh, nhiều lô hàng trên cùng mã, thanh toán mạng, hoàn một phần hoặc báo cáo lợi nhuận. Các giới hạn này giúp nội dung tập trung vào OOP và đúng danh sách lớp được giao.</p>
+<p>Giao dịch kiểm tra trước khi đổi dữ liệu bảo đảm các lỗi nghiệp vụ thông thường không gây thay đổi dở dang trong tiến trình đơn luồng. Nó không tương đương transaction của cơ sở dữ liệu khi chạy đồng thời nhiều tiến trình hoặc khi mất điện. Ghi file tạm, đổi tên và bản <code>.bak</code> giảm rủi ro mất dữ liệu nhưng không thay thế hệ quản trị cơ sở dữ liệu.</p></section>
+<section id="chuong-2"><h2>Phân công và mô tả công việc</h2>
+<h3>Phân công giữ nguyên theo tài liệu</h3>
+<p>Đây là mô tả trách nhiệm của từng người đối với <strong>bản mã nguồn được bàn giao</strong>, không phải xác nhận rằng các thành viên đã tự hoàn thành hay đã kiểm thử công việc. Nhóm nên dùng tài liệu này để chia phần học, rà soát và thuyết trình.</p>
+<div class="table-wrap"><table><thead><tr><th>Thành viên</th><th>Mảng phụ trách</th><th>Tệp chính</th><th>Số tệp</th></tr></thead><tbody>
+<tr><td>Thanh Dương</td><td>Nền tảng và tiện ích</td><td>QuyTac.java, NhapLieu.java</td><td>2</td></tr>
+<tr><td>Tấn Viên</td><td>Sản phẩm và thực đơn</td><td>SanPham.java, ThucPham.java, DoUong.java, DanhSachSanPham.java</td><td>4</td></tr>
+<tr><td>Thủy Tiên</td><td>Mô hình khách hàng và nhân viên</td><td>Nguoi.java, KhachHang.java, NhanVien.java</td><td>3</td></tr>
+<tr><td>Đức Phúc</td><td>Khuyến mãi, hóa đơn và nghiệp vụ cửa hàng</td><td>KhuyenMai.java, ChiTietHoaDon.java, HoaDon.java, CuaHang.java</td><td>4</td></tr>
+<tr><td>Đình Triệu</td><td>Lưu trữ, menu và kiểm thử</td><td>LuuTru.java, Main.java, KiemThu.java</td><td>3</td></tr>
+</tbody></table></div>
+<p>Tổng là <strong>16 tệp</strong>, gồm 15 lớp và 1 interface. Số tệp không phản ánh hoàn toàn độ khó: phần Đức Phúc có nhiều quy tắc cần phối hợp; phần Đình Triệu có trách nhiệm tích hợp và kiểm thử toàn chương trình.</p>
+<h3>Thành viên 1 Thanh Dương</h3>
+<p><strong>Mục tiêu:</strong> mọi phần của chương trình cùng dùng một quy tắc kiểm tra và nhập liệu, tránh chỗ này chấp nhận dữ liệu mà chỗ khác từ chối.</p>
+<p><strong>QuyTac.java.</strong> Phụ trách tên cửa hàng, giới hạn giá, tồn kho và độ dài tên. Giải thích được <code>static final</code>, constructor private, <code>yeuCau</code>, <code>chuanHoaMa</code>, <code>chuanHoaChuoi</code>, <code>kiemTraSoDienThoai</code>, <code>kiemTraGia</code>, <code>kiemTraTonKho</code>, <code>kiemTraGiamGia</code>, <code>docNgay</code>, <code>dinhDangTien</code>, <code>khoaTimKiem</code>. Tìm kiếm bỏ dấu là tiện ích để người dùng gõ <code>ca phe</code> vẫn tìm được “Cà phê”.</p>
+<p><strong>NhapLieu.java.</strong> Phụ trách đọc số, chuỗi, mã, điện thoại, ngày và xác nhận. Dùng <code>nextLine()</code> rồi chuyển kiểu, không trộn <code>nextInt()</code> với <code>nextLine()</code>. Bắt sai định dạng số và ngày để yêu cầu nhập lại; khi hết luồng nhập phải thoát vòng lặp bằng ngoại lệ để <code>Main</code> kết thúc an toàn.</p>
+<p><strong>Bàn giao cho nhóm:</strong> chữ ký hàm và thông báo lỗi ổn định; toàn bộ <code>Main</code> dùng lớp này thay vì tự tạo nhiều Scanner. Các lớp mô hình cũng gọi <code>QuyTac</code> để không thể bỏ qua kiểm tra khi gọi hàm ngoài menu.</p>
+<p><strong>Tiêu chí hoàn thành:</strong> nhập <code>abc</code> ở ô số không làm chương trình văng; nhập giá âm bị chặn; <code>31/02/2030</code> không được chấp nhận; mã <code> du01 </code> trở thành <code>DU01</code>; SĐT sai bị yêu cầu nhập lại. Đối chiếu ca 01–04, 12, 36–37 trong KiemThu.</p>
+<p><strong>Khi trình bày:</strong> giải thích sự khác nhau giữa kiểm tra dữ liệu ở giao diện và kiểm tra ở mô hình; vì sao cần cả hai; vì sao ngày phải kiểm tra nghiêm ngặt và tiền dùng số nguyên đồng.</p>
+<h3>Thành viên 2 Tấn Viên</h3>
+<p><strong>Mục tiêu:</strong> biểu diễn hàng hóa bằng kế thừa, quản lý thực đơn và cung cấp sản phẩm hợp lệ cho nghiệp vụ bán hàng.</p>
+<p><strong>SanPham.java.</strong> Phụ trách lớp abstract với mã, tên, giá gốc, tồn kho và phần trăm giảm. Tất cả thuộc tính private; mã không đổi. <code>giaBanThucTe()</code> hiện thực interface KhuyenMai do Đức Phúc phụ trách. Giải thích phép làm tròn và vì sao tồn kho chỉ thay đổi qua hàm nhập/xuất có kiểm tra.</p>
+<p><strong>ThucPham.java và DoUong.java.</strong> Cả hai kế thừa SanPham, gọi <code>super(...)</code>, bổ sung HSD và ghi đè <code>getLoai</code>, <code>getHanSuDung</code>, <code>duocBan(LocalDate)</code>. Theo tài liệu, cả đồ uống cũng có hạn dùng. Hai lớp có logic kiểm tra ngày giống nhau; việc tách lớp thể hiện hai loại sản phẩm, không tự thêm thuộc tính ngoài đề như size, topping hoặc công thức pha chế.</p>
+<p><strong>DanhSachSanPham.java.</strong> Phụ trách <code>ArrayList&lt;SanPham&gt;</code>, thêm không trùng mã, sửa giữ loại và tồn kho, tìm mã/tên, lọc theo loại và trạng thái. Trả bản sao danh sách chỉ đọc để bên ngoài không tự xóa/thêm phần tử. Hàm xóa nội bộ được CuaHang gọi sau kiểm tra lịch sử hóa đơn.</p>
+<p><strong>Bàn giao cho nhóm:</strong> phương thức lấy mã/tên/giá/tồn/HSD và danh sách sản phẩm; giá sau giảm phải là giá dùng trong ChiTietHoaDon. Giữ nguyên tên kiểu <code>THUC_PHAM</code>, <code>DO_UONG</code> vì LuuTru dùng chúng để phục hồi đúng lớp con.</p>
+<p><strong>Tiêu chí hoàn thành:</strong> CRUD thực đơn hoạt động; trùng mã bị chặn; lọc đúng loại; ngày HSD còn bán, ngày sau không bán; hết hàng không hiện trong bộ lọc còn bán. Đối chiếu ca 05–11, 14, 17, 22–23.</p>
+<p><strong>Khi trình bày:</strong> tạo biến kiểu SanPham giữ đối tượng DoUong hoặc ThucPham; gọi phương thức ghi đè để chứng minh đa hình. Giải thích vì sao không thể <code>new SanPham(...)</code> và vì sao tìm kiếm trả danh sách nhưng tìm mã trả một đối tượng hoặc null.</p>
+<h3>Thành viên 3 Thủy Tiên</h3>
+<p><strong>Mục tiêu:</strong> biểu diễn khách hàng và nhân viên từ một lớp người chung, bảo đảm thông tin định danh hợp lệ.</p>
+<p><strong>Nguoi.java.</strong> Phụ trách lớp abstract với mã, tên, SĐT; kiểm tra điện thoại bằng quy tắc <code>0[0-9]{9}</code>. Hàm <code>capNhat</code> kiểm tra tên và SĐT trước khi gán cả hai, tránh trường hợp tên đổi rồi nhưng SĐT bị lỗi. Mã là final và không sửa.</p>
+<p><strong>KhachHang.java và NhanVien.java.</strong> Phụ trách constructor gọi super và <code>getVaiTro()</code> tương ứng. Các lớp con tối giản vì đề chưa yêu cầu lương, chức vụ, điểm thưởng hoặc cấp thành viên. Không thêm các tính năng đó vào phần bắt buộc.</p>
+<p><strong>Phối hợp với Đức Phúc:</strong> Thủy Tiên bàn giao các lớp mô hình; <code>CuaHang</code> sở hữu ArrayList khách/nhân viên và các hàm thêm/sửa/xóa/tìm theo mô tả gốc. Nhóm rà soát cùng nhau việc chặn xóa người đã có hóa đơn và giữ snapshot tên cũ.</p>
+<p><strong>Phối hợp với Đình Triệu:</strong> thống nhất menu 3 và 4 dùng cùng cách nhập mã, tên, điện thoại; file phải ghi lại SĐT dưới dạng chuỗi để giữ số 0 đầu.</p>
+<p><strong>Tiêu chí hoàn thành:</strong> thêm hai người trùng mã trong cùng loại bị chặn; SĐT sai không được lưu; sửa thông tin người không làm đổi tên trên hóa đơn cũ; xóa người chưa có giao dịch được. Đối chiếu ca 12–13, 18, 24, 29–30.</p>
+<p><strong>Khi trình bày:</strong> giải thích <code>Nguoi</code> dùng để dùng chung dữ liệu/hành vi, còn <code>KhachHang</code> và <code>NhanVien</code> phân biệt vai trò. Không nhầm “vai trò mô hình” với đăng nhập/phân quyền, vì chương trình chưa có chức năng đăng nhập.</p>
+<h3>Thành viên 4 Đức Phúc</h3>
+<p><strong>Mục tiêu:</strong> bảo đảm tiền, tồn kho và lịch sử nhất quán qua toàn bộ quá trình bán hoặc hủy. Đây là phần nghiệp vụ cốt lõi của đề.</p>
+<p><strong>KhuyenMai.java.</strong> Phụ trách interface khai báo <code>long giaBanThucTe()</code>. Thống nhất sớm với Tấn Viên rằng giá là số nguyên đồng, giảm giá được áp dụng ở đơn vị sản phẩm. Interface chỉ có một tệp dù tài liệu nhắc lại hai chỗ.</p>
+<p><strong>ChiTietHoaDon.java.</strong> Phụ trách snapshot của mã, tên, số lượng, đơn giá. Tất cả trường final; không giữ đối tượng SanPham và không có setter. Constructor nhận SanPham dùng khi bán, constructor nhận các giá trị dùng khi đọc file. <code>thanhTien()</code> nhân đơn giá với số lượng bằng long.</p>
+<p><strong>HoaDon.java.</strong> Phụ trách mã, ngày giờ, thông tin khách/nhân viên, danh sách chi tiết, tiền khách đưa và trạng thái hủy. Copy danh sách đầu vào và trả danh sách chỉ đọc. Tính <code>tongTien</code>, <code>tienThua</code> và tên trạng thái. Không tự hoàn kho trong lớp này: CuaHang mới biết kho sản phẩm để điều phối.</p>
+<p><strong>CuaHang.java.</strong> Phụ trách sở hữu danh sách sản phẩm, khách, nhân viên, hóa đơn; CRUD người; nhập kho; kiểm tra giỏ; thanh toán; tạo mã hóa đơn; hủy và báo cáo. Khi bán, kiểm tra người và tất cả dòng hàng, tạo hóa đơn hợp lệ rồi mới trừ kho. Khi hủy, kiểm tra mọi dòng trước rồi mới hoàn tất cả, đánh dấu hủy sau cùng. Doanh thu luôn tính từ hóa đơn còn hiệu lực.</p>
+<p><strong>Bàn giao cho Đình Triệu:</strong> chữ ký các hàm <code>kiemTraGioHang</code>, <code>tinhTienGioHang</code>, <code>banHang</code>, <code>huyHoaDon</code>, <code>doanhThu</code>, <code>tongDoanhThu</code>, <code>soLuongDaBan</code>, cùng getter cho lưu trữ. <code>napHoaDon</code> chỉ dùng khi đọc file và không tác động kho lần nữa.</p>
+<p><strong>Tiêu chí hoàn thành:</strong> thiếu tiền, hết hạn hoặc thiếu kho không làm thay đổi dữ liệu; sửa giá không đổi hóa đơn cũ; hủy đúng một lần; tiền hoàn là tiền hàng; doanh thu bỏ hóa đơn hủy; lịch sử không bị xóa gián tiếp. Đối chiếu ca 15–35, 38, 43.</p>
+<p><strong>Khi trình bày:</strong> trình bày ví dụ DU01 × 2 + TP01 × 1 trong dữ liệu mẫu = 70.000đ, khách đưa 100.000đ, thừa 30.000đ. Hủy trả 70.000đ và hoàn đúng 2 DU01, 1 TP01. Chỉ rõ hai vòng lặp “kiểm tra trước, cập nhật sau” trong hàm hủy và giải thích giới hạn một tiến trình.</p>
+<h3>Thành viên 5 Đình Triệu</h3>
+<p><strong>Mục tiêu:</strong> biến các lớp nghiệp vụ thành chương trình dùng được, lưu bền dữ liệu và có bằng chứng kiểm thử.</p>
+<p><strong>LuuTru.java.</strong> Phụ trách định dạng Properties text UTF-8, phiên bản file, số bản ghi và khóa từng trường. Khi đọc, phục hồi đúng lớp DoUong/ThucPham và snapshot, không gọi lại banHang. Ghi file tạm, sao lưu file cũ, đổi tên để giảm rủi ro ghi hỏng. Sai trường, số, ngày, trạng thái hoặc tham chiếu phải báo IOException có thông tin.</p>
+<p><strong>Main.java.</strong> Phụ trách vòng lặp menu, hiển thị, giỏ LinkedHashMap, xác nhận thanh toán/xóa/hủy/nạp lại. Gọi NhapLieu để nhập và CuaHang để xử lý; không viết lại công thức giảm giá hoặc tự chỉnh kho trong menu. Tự lưu sau thay đổi; có lỗi ghi phải hiển thị trạng thái chưa lưu.</p>
+<p><strong>KiemThu.java.</strong> Phụ trách các ca kiểm thử độc lập, kiểm tra giá trị tiền/kho sau thành công và sau thất bại. Dùng Clock cố định để kiểm tra biên ngày, thư mục tạm cho file và luồng nhập giả lập cho NhapLieu. Không cần JUnit. Có mã thoát khác 0 khi một ca thất bại.</p>
+<p><strong>Bàn giao cho nhóm:</strong> mã chạy, script, log kiểm thử, dữ liệu mẫu tự tạo, hướng dẫn mở chương trình, hướng dẫn phục hồi và kịch bản trình diễn. Kết quả 43/43 là kết quả đã chạy trong môi trường bàn giao; cần chạy lại trên máy thực tế trước buổi bảo vệ.</p>
+<p><strong>Tiêu chí hoàn thành:</strong> đóng/mở lại không mất kho, hóa đơn hay trạng thái hủy; đọc file lỗi không đè dữ liệu; nhập chữ ở ô số không văng chương trình; tất cả ca test đạt. Đối chiếu ca 36–43 và log kiểm thử console.</p>
+<p><strong>Khi trình bày:</strong> giải thích vì sao text vẫn lưu được tiếng Việt, vì sao không dùng ObjectOutputStream, vì sao không cộng/trừ kho lại lúc đọc file, và phân biệt lỗi nhập liệu, lỗi nghiệp vụ, lỗi tệp.</p>
+<h3>Trình tự phối hợp đề xuất</h3>
+<div class="table-wrap"><table><thead><tr><th>Bước</th><th>Người phối hợp</th><th>Sản phẩm cần thống nhất trước bước sau</th></tr></thead><tbody>
+<tr><td>1</td><td>Thanh Dương và Đức Phúc</td><td>QuyTac, kiểu tiền long, chữ ký KhuyenMai</td></tr>
+<tr><td>2</td><td>Tấn Viên và Thủy Tiên</td><td>Mô hình sản phẩm/người, constructor/getter ổn định</td></tr>
+<tr><td>3</td><td>Đức Phúc với Tấn Viên</td><td>Snapshot và logic kiểm tra/trừ/hoàn kho</td></tr>
+<tr><td>4</td><td>Đức Phúc với Thủy Tiên</td><td>CRUD người và tham chiếu từ hóa đơn</td></tr>
+<tr><td>5</td><td>Đình Triệu với cả nhóm</td><td>Menu, lưu/đọc, tích hợp tất cả nghiệp vụ</td></tr>
+<tr><td>6</td><td>Cả 5 thành viên</td><td>Chạy test, demo, giải thích được luồng đi qua phần mình và phần liên quan</td></tr>
+</tbody></table></div>
+<p>Khi sửa một hàm dùng chung, báo cho người gọi hàm đó và chạy lại toàn bộ KiemThu. Trước khi ghép bài, thống nhất mã hóa UTF-8, JDK 17 và default package. Mỗi người nên biết luồng <code>Main → CuaHang → mô hình → LuuTru</code>, không chỉ học thuộc tệp mình được phân công.</p></section>
+<section id="chuong-3"><h2>Thiết kế lớp và giải thích hướng đối tượng</h2>
+<h3>Cách đọc mã nguồn</h3>
+<p>Đọc theo thứ tự: QuyTac → KhuyenMai → SanPham → DoUong/ThucPham → DanhSachSanPham → Nguoi → KhachHang/NhanVien → ChiTietHoaDon → HoaDon → CuaHang → NhapLieu → LuuTru → Main → KiemThu. Thứ tự này giúp hiểu những kiểu dữ liệu trước khi đọc hàm sử dụng chúng.</p>
+<p>Tất cả tệp ở <code>src</code>, dùng default package để dễ biên dịch trong môn học. Không có framework, reflection, annotation tùy chỉnh, cơ sở dữ liệu hoặc phụ thuộc tải qua mạng. Lambda xuất hiện chủ yếu trong kiểm thử; nghiệp vụ chính dùng vòng lặp và điều kiện thông thường.</p>
+<h3>Danh mục lớp</h3>
+<div class="table-wrap"><table><thead><tr><th>Tệp/kiểu</th><th>Dữ liệu hoặc vai trò chính</th><th>Phương thức đáng đọc</th></tr></thead><tbody>
+<tr><td>QuyTac, final</td><td>Hằng số, kiểm tra và chuẩn hóa</td><td>chuanHoaMa, docNgay, dinhDangTien</td></tr>
+<tr><td>NhapLieu, final</td><td>Scanner và PrintStream</td><td>soNguyen, soNguyenDai, ngay, xacNhan</td></tr>
+<tr><td>KhuyenMai, interface</td><td>Hợp đồng giá bán thực tế</td><td>giaBanThucTe</td></tr>
+<tr><td>SanPham, abstract</td><td>ma, ten, giaGoc, tonKho, phanTramGiamGia</td><td>giaBanThucTe, nhapKho, xuatKho, duocBan</td></tr>
+<tr><td>ThucPham, final</td><td>hanSuDung</td><td>getLoai, getHanSuDung, duocBan</td></tr>
+<tr><td>DoUong, final</td><td>hanSuDung</td><td>getLoai, getHanSuDung, duocBan</td></tr>
+<tr><td>DanhSachSanPham, final</td><td>ArrayList các SanPham</td><td>them, sua, xoa, timTheoMa, timTheoTen, locTheoTrangThai</td></tr>
+<tr><td>Nguoi, abstract</td><td>ma, ten, soDienThoai</td><td>capNhat, getVaiTro</td></tr>
+<tr><td>KhachHang, final</td><td>Kế thừa dữ liệu Nguoi</td><td>constructor, getVaiTro</td></tr>
+<tr><td>NhanVien, final</td><td>Kế thừa dữ liệu Nguoi</td><td>constructor, getVaiTro</td></tr>
+<tr><td>ChiTietHoaDon, final</td><td>maSanPham, tenSanPham, soLuong, donGia</td><td>constructor snapshot, thanhTien</td></tr>
+<tr><td>HoaDon, final</td><td>mã, ngày giờ, người, chi tiết, tiền đưa, daHuy</td><td>tongTien, tienThua, getTrangThai</td></tr>
+<tr><td>CuaHang, final</td><td>Sản phẩm, khách, nhân viên, hóa đơn, đồng hồ</td><td>banHang, huyHoaDon, doanhThu</td></tr>
+<tr><td>LuuTru, final</td><td>Hàm đọc/ghi text, không giữ trạng thái riêng</td><td>ghi, doc</td></tr>
+<tr><td>Main, final</td><td>CuaHang, NhapLieu, đường dẫn và trạng thái chưa lưu</td><td>main, chay, các menu</td></tr>
+<tr><td>KiemThu, final</td><td>Ca kiểm thử và số đếm kết quả</td><td>main, các hàm kiểm thử file</td></tr>
+</tbody></table></div>
+<h3>Quan hệ giữa các kiểu</h3>
+<div class="table-wrap"><table><thead><tr><th>Nguồn</th><th>Quan hệ</th><th>Đích</th><th>Ý nghĩa</th></tr></thead><tbody>
+<tr><td>SanPham</td><td>implements</td><td>KhuyenMai</td><td>Cam kết cung cấp giá bán sau giảm</td></tr>
+<tr><td>ThucPham, DoUong</td><td>extends</td><td>SanPham</td><td>Dùng chung dữ liệu/hành vi sản phẩm</td></tr>
+<tr><td>KhachHang, NhanVien</td><td>extends</td><td>Nguoi</td><td>Dùng chung thông tin định danh</td></tr>
+<tr><td>CuaHang</td><td>sở hữu một</td><td>DanhSachSanPham</td><td>Quản lý thực đơn</td></tr>
+<tr><td>DanhSachSanPham</td><td>chứa 0..n</td><td>SanPham</td><td>Một danh sách có cả đồ uống và thực phẩm</td></tr>
+<tr><td>CuaHang</td><td>chứa 0..n</td><td>KhachHang, NhanVien, HoaDon</td><td>Trạng thái hoạt động của cửa hàng</td></tr>
+<tr><td>HoaDon</td><td>chứa 1..n</td><td>ChiTietHoaDon</td><td>Một hóa đơn có ít nhất một dòng hàng</td></tr>
+<tr><td>ChiTietHoaDon</td><td>sao chép giá trị từ</td><td>SanPham</td><td>Không giữ tham chiếu sống tới giá menu</td></tr>
+<tr><td>Main</td><td>gọi</td><td>NhapLieu, CuaHang, LuuTru</td><td>Giao diện console điều phối thao tác</td></tr>
+<tr><td>LuuTru</td><td>tạo/đọc</td><td>CuaHang và các mô hình</td><td>Phục hồi trạng thái từ text</td></tr>
+<tr><td>KiemThu</td><td>sử dụng</td><td>Các lớp còn lại</td><td>Xác minh kết quả và tình huống lỗi</td></tr>
+</tbody></table></div>
+<h3>Đóng gói</h3>
+<p>Đóng gói là giữ trạng thái bên trong đối tượng và cung cấp đường thay đổi hợp lệ. Ví dụ <code>tonKho</code> là private, không có setter tùy ý. Muốn nhập thêm hàng phải đi qua kiểm tra số lượng dương và giới hạn tồn.</p>
+<pre><code>private int tonKho;
+
+void xuatKho(int soLuong) {
+    QuyTac.yeuCau(soLuong &gt; 0 &amp;&amp; soLuong &lt;= tonKho,
+            &quot;Số lượng xuất không hợp lệ.&quot;);
+    tonKho -= soLuong;
+}</code></pre>
+<p>Hàm trên có phạm vi package để lớp nghiệp vụ cùng dự án gọi. Đây là ràng buộc tổ chức mã, không phải cơ chế bảo mật chống mã độc cùng package. Các getter danh sách trả bản sao chỉ đọc để bên ngoài không thêm/xóa trực tiếp phần tử. Các phần tử sản phẩm/người vẫn có những hành vi cập nhật được cho phép; không gọi đó là bất biến sâu của toàn cửa hàng.</p>
+<h3>Kế thừa</h3>
+<p>DoUong và ThucPham đều có mã, tên, giá, tồn, giảm giá nên dùng lớp cha SanPham. KhachHang và NhanVien đều có mã, tên, điện thoại nên dùng Nguoi. Constructor lớp con gọi <code>super(...)</code> để lớp cha kiểm tra và gán phần dữ liệu chung.</p>
+<pre><code>public DoUong(String ma, String ten, long gia, int ton, int giam, LocalDate han) {
+    super(ma, ten, gia, ton, giam);
+    this.hanSuDung = Objects.requireNonNull(han, &quot;Thiếu hạn sử dụng.&quot;);
+}</code></pre>
+<p><code>super</code> ở đây không tạo thêm một sản phẩm riêng. Nó khởi tạo phần lớp cha bên trong cùng đối tượng DoUong.</p>
+<h3>Trừu tượng</h3>
+<p>SanPham và Nguoi là abstract: không được tạo đối tượng trực tiếp, nhưng dùng làm kiểu chung. SanPham yêu cầu lớp con có <code>getLoai</code>, <code>getHanSuDung</code>, <code>duocBan(LocalDate)</code>; Nguoi yêu cầu <code>getVaiTro</code>.</p>
+<p>KhuyenMai là interface: định nghĩa hợp đồng <code>giaBanThucTe()</code>. SanPham hiện thực công thức chung, DoUong/ThucPham kế thừa cách tính đó. Trong bản này không ép các lớp con ghi đè công thức giống hệt nhau chỉ để tăng số phương thức.</p>
+<h3>Đa hình</h3>
+<p>Biến kiểu cha có thể giữ đối tượng lớp con. Khi gọi phương thức được ghi đè, Java dùng phiên bản của lớp thực tế.</p>
+<pre><code>SanPham sp = new DoUong(&quot;DU10&quot;, &quot;Trà&quot;, 30000, 10, 10, LocalDate.of(2099, 12, 31));
+System.out.println(sp.getLoai());       // DO_UONG
+System.out.println(sp.giaBanThucTe());  // 27000
+
+KhuyenMai km = sp;
+System.out.println(km.giaBanThucTe());  // gọi qua kiểu interface
+
+Nguoi nguoi = new NhanVien(&quot;NV10&quot;, &quot;An&quot;, &quot;0901234567&quot;);
+System.out.println(nguoi.getVaiTro());  // Nhân viên</code></pre>
+<p>DanhSachSanPham dùng <code>ArrayList&lt;SanPham&gt;</code> nên cùng danh sách chứa cả hai lớp con. CuaHang gọi <code>sp.duocBan(ngay)</code> mà không cần tự xử lý từng loại bằng một chuỗi if-else trong nghiệp vụ bán.</p>
+<h3>Overriding và overloading</h3>
+<p><strong>Overriding:</strong> DoUong ghi đè <code>getLoai</code>, <code>getHanSuDung</code> và <code>duocBan(LocalDate)</code> của SanPham; có <code>@Override</code> để trình biên dịch kiểm tra chữ ký.</p>
+<p><strong>Overloading:</strong> <code>duocBan()</code> và <code>duocBan(LocalDate)</code> cùng tên nhưng khác tham số. ChiTietHoaDon cũng có hai constructor: một nhận SanPham khi bán, một nhận các trường snapshot khi đọc file. Không nhầm nạp chồng với ghi đè.</p>
+<h3>Vì sao snapshot cần thiết</h3>
+<p>Nếu ChiTietHoaDon chỉ giữ một đối tượng SanPham rồi mỗi lần in lại gọi giá hiện tại, hóa đơn cũ có thể đổi tổng khi người dùng sửa menu. Bản này giữ <code>String ma</code>, <code>String ten</code>, <code>int soLuong</code>, <code>long donGia</code> ở các trường final. Đơn giá là giá sau khuyến mãi tại thời điểm thanh toán.</p>
+<pre><code>HoaDon hd = cuaHang.banHang(&quot;KH01&quot;, &quot;NV01&quot;, Map.of(&quot;DU01&quot;, 1), 50000);
+long giaCu = hd.getChiTiet().get(0).getDonGia();
+// Sau khi sửa giá DU01 qua danh sách sản phẩm,
+// giaCu và hd.tongTien() vẫn phản ánh giao dịch ban đầu.</code></pre>
+<p>LuuTru ghi chính đơn giá snapshot đó. Khi nạp hóa đơn, không tính lại từ SanPham và không gọi banHang, vì kho trong file đã là kho sau giao dịch.</p>
+<h3>Luồng thanh toán</h3>
+<ol>
+<li>Main tạo giỏ theo mã và số lượng; xem giỏ không thay đổi kho.</li>
+<li>CuaHang xác minh nhân viên và khách, lấy một thời điểm lập hóa đơn.</li>
+<li>Kiểm tra mọi dòng: mã có thật, không lặp sau chuẩn hóa, số lượng dương, còn hạn, đủ tồn.</li>
+<li>Tạo ChiTietHoaDon từ giá tại thời điểm này; HoaDon kiểm tra danh sách và tiền khách đưa.</li>
+<li>Khi mọi điều kiện hợp lệ, mới trừ kho từng dòng và thêm hóa đơn vào lịch sử.</li>
+<li>Main in kết quả rồi gọi LuuTru để lưu toàn bộ trạng thái.</li>
+</ol>
+<p>Các bước 2–4 thất bại thì bước 5 chưa chạy. Việc ghi file thất bại sau bước 5 được báo riêng: giao dịch đã ở bộ nhớ nhưng chưa lưu được. Người dùng có thể thử lưu lại.</p>
+<h3>Luồng hủy hóa đơn</h3>
+<ol>
+<li>Tìm hóa đơn, từ chối nếu không có hoặc đã hủy.</li>
+<li>Kiểm tra tất cả sản phẩm vẫn tồn tại và việc hoàn kho không vượt giới hạn.</li>
+<li>Hoàn số lượng từng dòng vào kho.</li>
+<li>Đánh dấu hóa đơn hủy và trả số tiền hàng cần hoàn.</li>
+<li>Khi thống kê, bỏ qua hóa đơn đã hủy; lịch sử vẫn hiển thị tổng gốc và trạng thái.</li>
+</ol>
+<h3>Quy tắc xử lý lỗi</h3>
+<div class="table-wrap"><table><thead><tr><th>Lỗi</th><th>Cách xử lý</th></tr></thead><tbody>
+<tr><td>Nhập số/ngày/điện thoại sai</td><td>NhapLieu thông báo và cho nhập lại</td></tr>
+<tr><td>Nghiệp vụ sai như thiếu tiền hoặc hết hàng</td><td>CuaHang ném IllegalArgumentException; Main in lý do</td></tr>
+<tr><td>Phép tính vượt miền long</td><td>Math.addExact/multiplyExact ném ArithmeticException</td></tr>
+<tr><td>Đọc/ghi file lỗi</td><td>LuuTru ném IOException; Main báo và giữ trạng thái phù hợp</td></tr>
+<tr><td>Hết luồng nhập</td><td>NoSuchElementException được Main bắt để thoát an toàn</td></tr>
+</tbody></table></div>
+<p><code>Objects.requireNonNull</code> còn giúp phát hiện lỗi lập trình khi truyền thiếu đối tượng bắt buộc. Không phải mọi lỗi lập trình đều bị nuốt bằng <code>catch(Exception)</code>; các đường nhập thông thường được kiểm tra rõ trước khi gọi nghiệp vụ.</p></section>
+<section id="chuong-4"><h2>Kịch bản demo và gợi ý bảo vệ</h2>
+<h3>Chuẩn bị trước khi trình bày</h3>
+<p>Chạy <code>test.bat</code> trên Windows hoặc <code>sh test.sh</code> trên macOS/Linux. Dùng bộ dữ liệu riêng để các con số dưới đây không bị ảnh hưởng bởi lần chạy trước:</p>
+<pre><code>java -Dfile.encoding=UTF-8 -cp out Main --data data/demo_bao_ve.txt</code></pre>
+<p>Nếu <code>demo_bao_ve.txt</code> đã tồn tại, chọn một tên mới để chương trình tạo mẫu. Không tạo trước một file rỗng. Mở Terminal đủ rộng, phông có dấu tiếng Việt và để sẵn mã CuaHang, SanPham, ChiTietHoaDon.</p>
+<h3>Demo khoảng 10 đến 15 phút</h3>
+<div class="table-wrap"><table><thead><tr><th>Bước</th><th>Thao tác</th><th>Kết quả cần chỉ ra</th><th>Người phù hợp</th></tr></thead><tbody>
+<tr><td>1</td><td>Menu 1 → 1</td><td>5 sản phẩm, có hàng hết hạn/hết kho</td><td>Tấn Viên</td></tr>
+<tr><td>2</td><td>Menu 1 → 6, tìm <code>ca phe</code>; menu 1 → 8 → 2</td><td>Tìm không dấu; lọc được TP02 hết hạn</td><td>Tấn Viên</td></tr>
+<tr><td>3</td><td>Menu 3 → 2, thêm KH03, thử SĐT sai rồi đúng</td><td>Sai định dạng không được lưu</td><td>Thủy Tiên và Thanh Dương</td></tr>
+<tr><td>4</td><td>Menu 5, thử thêm TP02; sau đó thử DU03</td><td>Hết hạn/hết kho đều bị chặn</td><td>Đức Phúc</td></tr>
+<tr><td>5</td><td>Trong giỏ: thêm DU01 × 2 và TP01 × 1</td><td>Tạm tính 70.000đ, chưa trừ kho</td><td>Đức Phúc</td></tr>
+<tr><td>6</td><td>Chọn 5 thanh toán, NV01, KH01, tiền 100000, y</td><td>HD000001, thừa 30.000đ, kho 38/19</td><td>Đức Phúc</td></tr>
+<tr><td>7</td><td>Menu 1 → 3 sửa giá DU01 thành 35000, giảm 0, HSD hợp lệ</td><td>Giá hiện tại đổi; không sửa tồn</td><td>Tấn Viên</td></tr>
+<tr><td>8</td><td>Menu 6 → 2, HD000001</td><td>Giá DU01 trong hóa đơn vẫn 25.000đ</td><td>Đức Phúc</td></tr>
+<tr><td>9</td><td>Thoát và mở lại đúng file <code>--data</code></td><td>Hóa đơn và giá/kho hiện tại còn nguyên</td><td>Đình Triệu</td></tr>
+<tr><td>10</td><td>Menu 6 → 3, HD000001, y; menu 7 → 1</td><td>Hoàn kho, hoàn 70.000đ, doanh thu 0</td><td>Đức Phúc</td></tr>
+<tr><td>11</td><td>Hủy HD000001 lần nữa</td><td>Báo đã hủy; không hoàn kho hai lần</td><td>Đức Phúc</td></tr>
+<tr><td>12</td><td>Chạy KiemThu</td><td>43 ca đạt, giải thích một ca lỗi nghiệp vụ</td><td>Đình Triệu</td></tr>
+</tbody></table></div>
+<p>Kịch bản trên chỉ tạo một hóa đơn nên kỳ vọng doanh thu 0 sau hủy là chính xác. Nếu nhóm tự bán thêm, doanh thu phải bằng các hóa đơn khác chưa hủy, không luôn bằng 0.</p>
+<h3>Chuỗi nhập cho giao dịch cơ bản</h3>
+<p>Mỗi dòng là một lần nhập và nhấn Enter, bắt đầu từ menu chính của bộ dữ liệu mới. Các dòng tên menu không cần nhập.</p>
+<pre><code>5
+1
+DU01
+2
+1
+TP01
+1
+5
+NV01
+KH01
+100000
+y</code></pre>
+<p>Sau giao dịch, chọn <code>6</code>, <code>2</code>, <code>HD000001</code> để xem chi tiết. Chọn <code>7</code>, <code>1</code> để xem tổng doanh thu. Chọn <code>0</code> để thoát từ menu chính.</p>
+<h3>Tình huống phản biện thường gặp</h3>
+<p><strong>Tại sao chỉ có 16 tệp khi đề ghi 17 class?</strong> Danh sách tên duy nhất trong đề có 15 lớp và 1 interface. KhuyenMai được nhắc hai lần nhưng không tạo hai tệp trùng tên. Nhóm giữ đúng phân công và nêu rõ chênh lệch để xác nhận với giảng viên nếu cần bổ sung.</p>
+<p><strong>Tại sao dùng lớp trừu tượng SanPham?</strong> Vì các loại sản phẩm có phần dữ liệu chung, nhưng cần xác định loại và quy tắc hạn dùng thông qua lớp cụ thể. Không có sản phẩm chung chung được khởi tạo trực tiếp.</p>
+<p><strong>Interface KhuyenMai khác abstract SanPham ở đâu?</strong> KhuyenMai quy định hợp đồng tính giá bán. SanPham giữ trạng thái chung và hiện thực công thức tính giá. Interface không lưu thuộc tính riêng của từng đối tượng sản phẩm như tồn kho.</p>
+<p><strong>Đa hình nằm ở đâu?</strong> ArrayList chứa SanPham nhưng đối tượng thực tế là DoUong/ThucPham. Khi gọi <code>getLoai</code> hoặc <code>duocBan</code>, Java dùng phương thức của lớp thực tế. Nguoi cũng có hai lớp con ghi đè <code>getVaiTro</code>.</p>
+<p><strong>Tại sao không có setter cho mọi trường?</strong> Không phải mọi trạng thái đều được phép thay đổi tự do. Mã định danh và snapshot phải giữ nguyên; tồn kho cần kiểm tra. Khi sửa sản phẩm, tạo đối tượng mới hợp lệ rồi thay trong danh sách, giữ mã/loại/tồn.</p>
+<p><strong>Tại sao không dùng double cho tiền?</strong> Tiền trong bài là đồng nguyên; double có sai số biểu diễn. Dùng long, giới hạn giá/số lượng và công thức làm tròn rõ ràng giúp kết quả nhất quán.</p>
+<p><strong>Hết hạn đúng ngày có bán không?</strong> Bản này quy ước được bán trong chính ngày HSD, từ ngày sau mới hết hạn. <code>duocBan</code> kiểm tra ngày, còn CuaHang kiểm tra đủ tồn riêng. Đây là quy tắc mô phỏng của đề án, không phải hướng dẫn bảo quản thực phẩm thực tế.</p>
+<p><strong>Nếu khách không đưa đủ tiền thì sao?</strong> HoaDon từ chối trước khi CuaHang trừ kho. Giỏ vẫn còn để sửa hoặc thanh toán lại. Không tạo hóa đơn lỗi và không làm nhảy mã hóa đơn.</p>
+<p><strong>Nếu món thứ hai hết hàng thì món đầu đã bị trừ chưa?</strong> Chưa. Toàn bộ giỏ được kiểm tra trước. Chỉ khi tất cả dòng và số tiền đều hợp lệ mới chạy vòng lặp xuất kho.</p>
+<p><strong>Tại sao sửa giá không thay đổi hóa đơn cũ?</strong> ChiTietHoaDon lưu giá trị mã/tên/số lượng/đơn giá tại lúc bán và không giữ SanPham. Tổng cũ được tính từ snapshot, không tính từ menu hiện tại.</p>
+<p><strong>Nếu hủy hóa đơn có tiền khách đưa 100.000đ và tổng 70.000đ thì hoàn bao nhiêu?</strong> Hoàn 70.000đ vì 30.000đ tiền thừa đã trả lúc thanh toán. Hủy còn hoàn số lượng vào kho và đánh dấu hủy để loại khỏi doanh thu.</p>
+<p><strong>Tại sao không xóa sản phẩm đã bán?</strong> Cần giữ tham chiếu và khả năng hủy/hoàn kho. Bản đơn giản chặn xóa; hướng mở rộng có thể dùng trạng thái ngừng kinh doanh thay vì xóa vật lý.</p>
+<p><strong>Nếu nhân viên đổi tên thì hóa đơn cũ thế nào?</strong> Hóa đơn giữ tên nhân viên snapshot tại lúc bán; tên hiện tại trong danh sách nhân viên có thể khác. Mã nhân viên không thay đổi.</p>
+<p><strong>Tại sao đọc file không gọi lại banHang?</strong> File đã lưu tồn hiện tại. Nếu gọi banHang lần nữa, tồn sẽ bị trừ thêm và mã/giờ hóa đơn cũng thay đổi. LuuTru dựng lại các snapshot rồi nạp lịch sử.</p>
+<p><strong>Có tính lợi nhuận được không?</strong> Chưa. Đề không có giá vốn hoặc chi phí, nên chỉ thống kê doanh thu. Không dùng doanh thu trừ tồn kho để gọi là lợi nhuận.</p>
+<p><strong>Có chạy đồng thời hai máy trên một file không?</strong> Chưa hỗ trợ. Mô hình một tiến trình console giữ dữ liệu trong RAM và ghi toàn bộ file; nhiều tiến trình có thể ghi đè trạng thái nhau. Nếu mở rộng cần lưu trữ có transaction và kiểm soát đồng thời.</p>
+<p><strong>Kiểm thử đạt có nghĩa không còn lỗi không?</strong> Không. Nó chứng minh các tình huống đã kiểm tra cho kết quả mong đợi. Nhóm vẫn cần chạy thử trên máy bảo vệ, rà soát và bổ sung ca khi đổi yêu cầu.</p>
+<h3>Checklist trước buổi bảo vệ</h3>
+<ul>
+<li>Chạy được cả bản nguồn và bản JAR; nếu đã sửa nguồn thì ưu tiên chạy bản biên dịch mới.</li>
+<li>Có một bộ dữ liệu demo mới và một bản sao của dữ liệu quan trọng.</li>
+<li>Không để nhiều chương trình cùng ghi một file.</li>
+<li>Mỗi thành viên chỉ được phương thức thuộc phần mình và giải thích đầu vào/đầu ra.</li>
+<li>Thực hiện được một ca thành công và một ca bị từ chối, kiểm tra tiền/kho sau cả hai.</li>
+<li>Nêu đúng phạm vi và chênh lệch số lớp; không tuyên bố có đăng nhập, nhiều lô, SQL hoặc phân quyền khi mã chưa làm.</li>
+</ul></section>
+<section id="chuong-5"><h2>Lưu trữ dữ liệu và kết quả kiểm thử</h2>
+<h3>File text chứa những gì</h3>
+<p>Đường dẫn mặc định <code>data/cuahang.txt</code>, tính theo thư mục làm việc khi chạy. Các script chuyển vào thư mục gốc dự án trước khi gọi Java. Có thể truyền <code>--data</code> để dùng file riêng.</p>
+<p>Định dạng là <strong>Java Properties text UTF-8</strong>, đọc bằng Reader và ghi bằng Writer. Đây là file văn bản gồm khóa và giá trị, không phải serialization nhị phân. Properties có sẵn trong JDK và tự xử lý ký tự đặc biệt như dấu bằng hoặc dấu gạch chéo ngược. Thứ tự các dòng khi ghi không phải là hợp đồng; việc đọc dựa trên tên khóa.</p>
+<div class="table-wrap"><table><thead><tr><th>Nhóm khóa</th><th>Dữ liệu</th></tr></thead><tbody>
+<tr><td>phienBan</td><td>Phiên bản định dạng, hiện là 1</td></tr>
+<tr><td>sanPham.soLuong</td><td>Số sản phẩm</td></tr>
+<tr><td>sanPham.i.loai/ma/ten/giaGoc/tonKho/giamGia/hanSuDung</td><td>Toàn bộ dữ liệu sản phẩm thứ i</td></tr>
+<tr><td>khachHang.soLuong và khachHang.i.ma/ten/sdt</td><td>Danh sách khách</td></tr>
+<tr><td>nhanVien.soLuong và nhanVien.i.ma/ten/sdt</td><td>Danh sách nhân viên</td></tr>
+<tr><td>hoaDon.soLuong</td><td>Số hóa đơn, gồm cả đã hủy</td></tr>
+<tr><td>hoaDon.i.ma/ngay/maKhach/tenKhach/maNhanVien/tenNhanVien</td><td>Thông tin định danh và snapshot người</td></tr>
+<tr><td>hoaDon.i.tienKhachDua/daHuy</td><td>Tiền khách đưa và trạng thái</td></tr>
+<tr><td>hoaDon.i.chiTiet.soLuong</td><td>Số dòng hóa đơn i</td></tr>
+<tr><td>hoaDon.i.chiTiet.j.ma/ten/soLuong/donGia</td><td>Snapshot dòng j của hóa đơn i</td></tr>
+</tbody></table></div>
+<p><code>i</code>, <code>j</code> là chỉ số bắt đầu từ 0. Ví dụ dưới đây chỉ minh họa một phần file, không phải một file hoàn chỉnh để thay thế dữ liệu:</p>
+<pre><code>phienBan=1
+sanPham.0.loai=DO_UONG
+sanPham.0.ma=DU01
+sanPham.0.ten=Cà phê sữa
+sanPham.0.giaGoc=25000
+sanPham.0.tonKho=38
+sanPham.0.giamGia=0
+sanPham.0.hanSuDung=2026-12-31
+hoaDon.0.ma=HD000001
+hoaDon.0.chiTiet.0.ma=DU01
+hoaDon.0.chiTiet.0.ten=Cà phê sữa
+hoaDon.0.chiTiet.0.soLuong=2
+hoaDon.0.chiTiet.0.donGia=25000</code></pre>
+<p>Ngày trong menu là <code>dd/MM/yyyy</code>, nhưng file dùng ISO <code>yyyy-MM-dd</code> và ngày giờ ISO cho hóa đơn. Số tiền và số lượng ghi số nguyên không có dấu phân tách hàng nghìn. Mã khách rỗng là vãng lai; <code>daHuy</code> chỉ chấp nhận <code>true</code> hoặc <code>false</code>.</p>
+<h3>Trình tự ghi</h3>
+<ol>
+<li>Chuyển trạng thái hiện tại thành Properties.</li>
+<li>Tạo thư mục đích nếu chưa có và ghi vào file tạm cùng thư mục.</li>
+<li>Nếu file chính tồn tại, sao chép nó thành file <code>.bak</code>.</li>
+<li>Đổi tên file tạm thay file chính; ưu tiên atomic move nếu hệ thống tệp hỗ trợ.</li>
+<li>Dọn file tạm còn lại; nếu lỗi, thông báo để người dùng biết chưa lưu.</li>
+</ol>
+<p><code>.bak</code> chỉ giữ <strong>một phiên bản trước lần ghi gần nhất</strong>, không phải lịch sử đầy đủ. Một lần lưu thủ công tiếp theo cũng cập nhật bản sao này. Đừng coi <code>.bak</code> là bản sao lưu dài hạn bất biến.</p>
+<h3>Trình tự đọc</h3>
+<p>Đọc Properties, kiểm tra phiên bản và trường bắt buộc, dựng sản phẩm và người trước, sau đó dựng ChiTietHoaDon và HoaDon. Kiểm tra tham chiếu mã sản phẩm/người và mã không trùng. Tồn kho được đọc nguyên giá trị hiện tại; không bán/hủy lại hóa đơn đã lưu.</p>
+<p>Đối tượng CuaHang được xây dựng mới ở trong <code>LuuTru.doc</code>. Main chỉ thay cửa hàng đang dùng sau khi hàm trả về thành công. Nếu file có lỗi, cửa hàng đang sử dụng không bị thay bởi một bộ dữ liệu đọc dở.</p>
+<p>Các trường số đếm khi đọc giới hạn tối đa 100.000 bản ghi cho mỗi nhóm hoặc chi tiết một hóa đơn để chặn số đếm vô lý. Giới hạn này phù hợp bài tập nhỏ; hệ thống không được thiết kế cho kho dữ liệu lớn. Không có checksum, xác thực nguồn file hay công cụ tự sửa file bị thay đổi thủ công.</p>
+<h3>Khôi phục bản sao lưu</h3>
+<ol>
+<li>Đóng chương trình đang dùng file cần khôi phục.</li>
+<li>Sao chép file <code>.bak</code> sang một file khác, ví dụ <code>data/phuc_hoi_thu.txt</code>; giữ nguyên cả file chính bị lỗi và bản <code>.bak</code> để có thể quay lại.</li>
+<li>Chạy <code>Main --data data/phuc_hoi_thu.txt</code>, xem sản phẩm, hóa đơn và doanh thu. Thao tác trên bản sao, không mở <code>.bak</code> trực tiếp để bán hàng.</li>
+<li>Nếu dữ liệu đúng, đóng chương trình. Lưu riêng bản file chính cũ, rồi dùng bản đã kiểm tra thay <code>data/cuahang.txt</code>.</li>
+<li>Mở lại bình thường và kiểm tra lần nữa.</li>
+</ol>
+<p>Nếu bản <code>.bak</code> cũng lỗi hoặc thiếu giao dịch gần nhất, không thể đảm bảo phục hồi toàn bộ từ chương trình này. Chưa có nhật ký giao dịch để dựng lại các thay đổi chưa lưu.</p>
+<h3>Cách chạy bộ kiểm thử</h3>
+<p>Windows: <code>test.bat</code>. macOS/Linux: <code>sh test.sh</code>. Hoặc sau biên dịch:</p>
+<pre><code>java -Dfile.encoding=UTF-8 -cp out KiemThu</code></pre>
+<p>Mỗi dòng <code>[PASS]</code> tương ứng một ca. Nếu có <code>[FAIL]</code>, xem mô tả và lỗi cuối dòng; chương trình trả exit code 1. <code>KiemThu</code> tự kiểm tra bằng hàm <code>dung</code>, không dựa vào từ khóa Java <code>assert</code>, nên không cần cờ <code>-ea</code>.</p>
+<p>Kiểm thử thời gian dùng đồng hồ cố định ngày 02/01/2030. Kiểm thử file tạo thư mục tạm riêng, rồi dọn bằng <code>finally</code>; không ghi <code>data/cuahang.txt</code>. Kiểm thử nhập liệu sử dụng ByteArrayInputStream để mô phỏng người gõ, không cần thao tác tay.</p>
+<h3>Danh mục ca kiểm thử</h3>
+<div class="table-wrap"><table><thead><tr><th>Ca</th><th>Nội dung xác minh</th></tr></thead><tbody>
+<tr><td>01–04</td><td>Chuẩn hóa mã/tên, miền giá/tồn/giảm và làm tròn tiền</td></tr>
+<tr><td>05–06</td><td>Đa hình, interface và ranh giới HSD của cả hai lớp con</td></tr>
+<tr><td>07–11</td><td>Trùng mã, tìm kiếm, lọc, sửa đúng ràng buộc, xóa sản phẩm</td></tr>
+<tr><td>12–14</td><td>Regex SĐT, nhân sự, cập nhật không dở dang và giới hạn nhập kho</td></tr>
+<tr><td>15–19</td><td>Giỏ lỗi, thiếu kho, hết hạn, người không tồn tại, thiếu tiền</td></tr>
+<tr><td>20–22</td><td>Giao dịch nhiều món, tiền thừa, mã trùng sau chuẩn hóa, giảm 100%</td></tr>
+<tr><td>23–25</td><td>Snapshot giá/tên người, không bị sửa theo giỏ sau thanh toán</td></tr>
+<tr><td>26–28</td><td>Hủy, hủy lặp, hoàn kho vượt trần không thay đổi dở dang</td></tr>
+<tr><td>29–30</td><td>Chặn xóa dữ liệu có tham chiếu; cho xóa người chưa có giao dịch</td></tr>
+<tr><td>31–33</td><td>Doanh thu theo ngày, số lượng bán ròng và mã hóa đơn sau hủy</td></tr>
+<tr><td>34–35</td><td>Danh sách chỉ đọc, số tiền lớn hơn miền int</td></tr>
+<tr><td>36–37</td><td>Nhập số sai/vượt long, EOF, ngày thật/năm nhuận, SĐT và xác nhận</td></tr>
+<tr><td>38–39</td><td>Lưu/đọc UTF-8, ký tự đặc biệt, snapshot, hủy, mã tiếp theo, cửa hàng trống</td></tr>
+<tr><td>40</td><td>File sai phiên bản/số/loại/ngày/SĐT/trạng thái/tham chiếu, thiếu trường, cắt ngắn, escape sai</td></tr>
+<tr><td>41–42</td><td>Ghi thất bại giữ file chính và dọn file tạm; đọc file không có</td></tr>
+<tr><td>43</td><td>HoaDon copy danh sách, chặn hai chi tiết cùng mã</td></tr>
+</tbody></table></div>
+<h3>Kết quả chạy thực tế</h3>
+<p>Môi trường kiểm tra: <strong>OpenJDK 17.0.20 trên Linux, UTF-8</strong>, biên dịch mục tiêu Java 17 với <code>-Xlint:all</code>, không có cảnh báo. Kết quả: <strong>43/43 ca đạt, 177 phép kiểm tra, 0 ca lỗi</strong>. Log đầy đủ ở <code>KET_QUA_KIEM_THU.txt</code>.</p>
+<p>Ngoài bộ kiểm thử lớp, đã đưa chuỗi nhập vào Main để chạy các luồng console: bán nhiều món, xem báo cáo, khởi động lại, hủy và hủy lặp, nhập menu sai, hết hạn/hết kho/thiếu tiền, CRUD người/sản phẩm, nhập kho, tìm/lọc, lưu/nạp lại và EOF. File lỗi lúc khởi động được giữ nguyên. Tóm tắt ở <code>KET_QUA_CONSOLE.txt</code>.</p>
+<p>Script <code>.bat</code> được soạn cho Windows nhưng chưa được thực thi trên Windows trong môi trường bàn giao. Cần chạy lại trên máy bảo vệ để xác nhận JDK, PATH, font console và quyền ghi. Kiểm thử không khẳng định chương trình không thể có lỗi trong mọi tình huống; nó là bằng chứng cho những đường nghiệp vụ đã kiểm tra.</p></section><footer>Nội dung xây dựng từ tài liệu mô tả và phân công người dùng cung cấp. Kết quả kiểm thử kèm trong thư mục docs.</footer></main></body></html>

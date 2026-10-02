@@ -1,0 +1,19 @@
+ĐỒ ÁN JAVA OOP - QUẢN LÝ QUÁN CÀ PHÊ CONSOLE
+
+1. Giải nén TOÀN BỘ ZIP trước khi chạy.
+2. Máy cần Java 17 trở lên. Để sửa và biên dịch mã nguồn, cần JDK 17 trở lên.
+3. Windows: mở run.bat để biên dịch và chạy.
+   Nếu chỉ muốn xem bản đã biên dịch sẵn: mở run-jar.bat.
+4. Kiểm thử: mở test.bat. Kết quả dự kiến: 43/43 ca đạt.
+5. Đọc README.md hoặc HUONG_DAN.html để xem hướng dẫn.
+6. docs/02_PHAN_CONG.md giải thích nhiệm vụ của từng thành viên đúng tên trong đề.
+
+MÃ MẪU: NV01, NV02; KH01, KH02; DU01, DU02, DU03; TP01, TP02.
+Lần đầu chạy tự tạo data/cuahang.txt. Sau mỗi thay đổi, chương trình tự lưu.
+DU01: cà phê sữa 25.000đ. DU02: trà đào 30.000đ, giảm 10% còn 27.000đ.
+TP01: bánh mì 20.000đ. TP02 cố ý hết hạn; DU03 cố ý hết hàng để thử lỗi.
+
+Lưu ý: đề ghi 17 class nhưng liệt kê 15 lớp + 1 interface = 16 tệp Java.
+Đồ án giữ đúng 16 tên tệp được liệt kê, không tự thêm lớp ngoài phân công.
+
+Hãy đọc mã, chạy thử và tự giải thích được các nghiệp vụ trước khi bảo vệ.
